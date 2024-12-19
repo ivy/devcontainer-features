@@ -16,6 +16,9 @@
       "description": "Select an Aider version to install."
     }
   },
+  "dependsOn": {
+    "ghcr.io/devcontainers/features/python": {}
+  },
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils",
     "ghcr.io/devcontainers/features/python"

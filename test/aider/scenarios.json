@@ -9,12 +9,6 @@
       },
       "remoteUser": "octocat"
   },
-  "with_ubuntu": {
-      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-      "features": {
-          "aider": {}
-      }
-  },
   "with_version": {
       "image": "mcr.microsoft.com/devcontainers/base:debian",
       "features": {

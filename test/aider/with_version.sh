@@ -6,6 +6,7 @@
 set -e
 
 # Optional: Import test library bundled with the devcontainer CLI
+# shellcheck disable=SC1091
 source dev-container-features-test-lib
 
 # Feature-specific tests

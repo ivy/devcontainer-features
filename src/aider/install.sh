@@ -43,39 +43,10 @@ detect_username() {
             # If there is no non-root user, use the default username.
             USERNAME=root
         fi
-    elif [ "$USERNAME" = "none" ] || ! id -u "$USERNAME" &>/dev/null; then
+    elif [ "$USERNAME" = none ] || ! id -u "$USERNAME" &>/dev/null; then
         # If the specified user does not exist or is unspecified, use default.
         USERNAME=root
     fi
-}
-
-# Install Aider on Debian-based systems.
-install_debian() {
-    if ! dpkg -l pipx &>/dev/null; then
-        echo "pipx not found. Installing..."
-        apt-get update && apt-get install -y pipx
-    fi
-
-    if [ "$AIDER_VERSION" = latest ]; then
-        echo "Installing latest Aider..."
-        su -c 'pipx install aider-chat' "$USERNAME"
-    else
-        echo "Installing Aider version $AIDER_VERSION..."
-        su -c "pipx install aider-chat==${AIDER_VERSION}" "$USERNAME"
-    fi
-}
-
-# Clean up
-clean_up() {
-    case "$ADJUSTED_ID" in
-        debian)
-            rm -rf /var/lib/apt/lists/*
-            ;;
-        *)
-            echo "Unsupported distribution: $ADJUSTED_ID" >&2
-            exit 1
-            ;;
-    esac
 }
 
 # Main entrypoint
@@ -86,34 +57,14 @@ main() {
     fi
 
     detect_username
-
-    if [ ! -r /etc/os-release ]; then
-        echo "Unsupported distribution: Unknown" >&2
-        exit 1
-    fi
-
-    # Read /etc/os-release to identify the Linux distribution
-    # shellcheck disable=SC1091
-    source /etc/os-release
-
-    # Ubuntu and other Debian-derivatives should be treated as Debian
-    if [ "${ID_LIKE:-}" = debian ]; then
-        ADJUSTED_ID=debian
+    
+    if [ "$AIDER_VERSION" = latest ]; then
+        echo "Installing latest Aider..."
+        su -c 'pipx install aider-chat' "$USERNAME"
     else
-        ADJUSTED_ID="${ID:-}"
+        echo "Installing Aider version $AIDER_VERSION..."
+        su -c "pipx install aider-chat==${AIDER_VERSION}" "$USERNAME"
     fi
-
-    case "$ADJUSTED_ID" in
-        debian|ubuntu)
-            install_debian
-            ;;
-        *)
-            echo "Unsupported distribution: $ADJUSTED_ID" >&2
-            exit 1
-            ;;
-    esac
-
-    clean_up
 
     echo "Aider has been installed!"
 }

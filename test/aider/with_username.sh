@@ -6,10 +6,12 @@
 set -e
 
 # Optional: Import test library bundled with the devcontainer CLI
+# shellcheck disable=SC1091
 source dev-container-features-test-lib
 
 # Feature-specific tests
 # The 'check' command comes from the dev-container-features-test-lib.
+# shellcheck disable=SC2016
 check "execute command" bash -c 'aider --version && [ $(whoami) = octocat ]'
 
 # Report result
