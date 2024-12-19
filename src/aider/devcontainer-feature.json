@@ -1,0 +1,18 @@
+{
+  "id": "aider",
+  "version": "1.0.0",
+  "name": "Aider",
+  "description": "Aider lets you pair program with LLMs, to edit code in your local Ggit repositor.",
+  "documentationURL": "https://github.com/ivy/devcontainer-features/blob/main/src/aider#readme",
+  "licenseURL": "https://github.com/ivy/devcontainer-features/blob/main/LICENSE",
+  "options": {
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "The Aider version to install (e.g. 'latest' or '0.69.0')."
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/python"
+  ]
+}
