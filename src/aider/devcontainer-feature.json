@@ -9,10 +9,15 @@
     "version": {
       "type": "string",
       "default": "latest",
-      "description": "The Aider version to install (e.g. 'latest' or '0.69.0')."
+      "proposals": [
+        "latest",
+        "0.69.1"
+      ],
+      "description": "Select an Aider version to install."
     }
   },
   "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils",
     "ghcr.io/devcontainers/features/python"
   ]
 }

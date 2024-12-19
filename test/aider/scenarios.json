@@ -1,0 +1,26 @@
+{
+  "with_username": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+          "ghcr.io/devcontainers/features/common-utils:1": {
+              "username": "octocat"
+          },
+          "aider": {}
+      },
+      "remoteUser": "octocat"
+  },
+  "with_ubuntu": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+          "aider": {}
+      }
+  },
+  "with_version": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+          "aider": {
+              "version": "0.69.0"
+          }
+      }
+  }
+}
