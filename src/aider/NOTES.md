@@ -1,3 +1,3 @@
-This Dev Container Feature installs [Aider](https://github.com/Aider-AI/aider) into your development container, enabling AI-assisted pair programming directly from your terminal.
+This devcontainer feature installs [Aider](https://github.com/Aider-AI/aider) into your development container, enabling AI-assisted pair programming directly from your terminal.
 
 Aider leverages powerful language models (LLMs) to assist you in editing code within your local Git repository. With Aider, you can streamline the coding process, get instant suggestions, and rapidly iterate on new ideas—all without leaving your terminal.
