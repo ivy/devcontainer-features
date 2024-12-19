@@ -57,13 +57,20 @@ main() {
     fi
 
     detect_username
-    
     if [ "$AIDER_VERSION" = latest ]; then
         echo "Installing latest Aider..."
-        su -c 'pipx install aider-chat' "$USERNAME"
+        # NOTE(ivy): PS1=true works around an edge case where pipx isn't added
+        # to the PATH. This happens with the `mcr.microsoft.com/devcontainers/base:ubuntu`
+        # image which includes a check at the top of /etc/bash.bashrc which
+        # returns in non-interactive shells.
+        su - "$USERNAME" bash -c "PS1=true; . /etc/bash.bashrc || true; pipx install aider-chat"
     else
         echo "Installing Aider version $AIDER_VERSION..."
-        su -c "pipx install aider-chat==${AIDER_VERSION}" "$USERNAME"
+        # NOTE(ivy): PS1=true works around an edge case where pipx isn't added
+        # to the PATH. This happens with the `mcr.microsoft.com/devcontainers/base:ubuntu`
+        # image which includes a check at the top of /etc/bash.bashrc which
+        # returns in non-interactive shells.
+        su - "$USERNAME" bash -c "PS1=true; . /etc/bash.bashrc || true; pipx install aider-chat==${AIDER_VERSION}"
     fi
 
     echo "Aider has been installed!"
