@@ -16,5 +16,21 @@
               "version": "0.69.0"
           }
       }
+  },
+  "without_playwright": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+          "aider": {
+              "installPlaywright": false
+          }
+      }
+  },
+  "with_playwright_browsers": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+          "aider": {
+              "installPlaywrightBrowsers": "chromium,firefox"
+          }
+      }
   }
 }
