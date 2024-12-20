@@ -16,6 +16,8 @@ Aider lets you pair program with LLMs, to edit code in your local Git repository
 | Options Id | Description | Type | Default Value |
 |-----|-----|-----|-----|
 | version | Select an Aider version to install. | string | latest |
+| installPlaywright | Install Playwright for the best web scraping. | boolean | true |
+| installPlaywrightBrowsers | Select the browsers to install for Playwright (comma-delimit for multiple). | string | chromium |
 
 This devcontainer feature installs [Aider](https://github.com/Aider-AI/aider) into your development container, enabling AI-assisted pair programming directly from your terminal.
 
