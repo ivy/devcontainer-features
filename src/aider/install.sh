@@ -114,9 +114,6 @@ clean_up() {
     # Clean up pipx cache.
     as_user 'pipx runpip aider-chat cache purge'
 
-    # Clean up Playwright cache (browser packages).
-    as_user 'rm -fr ~/.cache/ms-playwright'
-
     if [ "$ADJUSTED_ID" = debian ]; then
         rm -fr /var/lib/apt/lists/*
     fi
