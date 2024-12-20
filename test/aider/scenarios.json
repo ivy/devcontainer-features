@@ -16,5 +16,13 @@
               "version": "0.69.0"
           }
       }
+  },
+  "without_playwright": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+          "aider": {
+              "installPlaywright": false
+          }
+      }
   }
 }
