@@ -14,6 +14,28 @@
         "0.69.1"
       ],
       "description": "Select an Aider version to install."
+    },
+    "installPlaywright": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install Playwright for the best web scraping."
+    },
+    "installPlaywrightBrowsers": {
+      "type": "string",
+      "default": "chromium",
+      "proposals": [
+        "chromium",
+        "chromium-headless-shell",
+        "chrome",
+        "chrome-beta",
+        "msedge",
+        "msedge-beta",
+        "msedge-dev",
+        "bidi-chromium",
+        "firefox",
+        "webkit"
+      ],
+      "description": "Select the browsers to install for Playwright (comma-delimit for multiple)."
     }
   },
   "dependsOn": {
