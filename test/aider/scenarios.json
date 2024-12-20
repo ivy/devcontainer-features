@@ -24,5 +24,13 @@
               "installPlaywright": false
           }
       }
+  },
+  "with_playwright_browsers": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+          "aider": {
+              "installPlaywrightBrowsers": "chromium,firefox"
+          }
+      }
   }
 }

@@ -97,6 +97,8 @@ install_aider() {
 }
 
 install_playwright() {
+    local browsers
+
     if [ "$INSTALLPLAYWRIGHT" != true ]; then
         return
     fi
@@ -104,8 +106,11 @@ install_playwright() {
     as_user 'pipx inject --include-apps --include-deps aider-chat playwright'
 
     if [ -n "$INSTALLPLAYWRIGHTBROWSERS" ]; then
+        # Split $INSTALLPLAYWRIGHTBROWSERS by comma into an array and bind it to $browsers.
+        IFS=, read -r -a browsers <<< "$INSTALLPLAYWRIGHTBROWSERS"
+
         echo "Installing Playwright browsers: $INSTALLPLAYWRIGHTBROWSERS..."
-        as_user "playwright install --with-deps $INSTALLPLAYWRIGHTBROWSERS"
+        as_user "playwright install --with-deps ${browsers[*]}"
     fi
 }
 
