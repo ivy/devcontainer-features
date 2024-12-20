@@ -76,8 +76,12 @@ detect_username() {
 }
 
 as_user() {
+    # HACK(ivy): PS1=true works around an edge case where pipx isn't added
+    # to the PATH. This happens with the `mcr.microsoft.com/devcontainers/base:ubuntu`
+    # image which includes a check at the top of /etc/bash.bashrc which
+    # returns in non-interactive shells.
     if [ "$USERNAME" = root ]; then
-        "$@"
+        bash -c "PS1=true; . /etc/bash.bashrc || true; $1"
     else
         su - "$USERNAME" bash -c "PS1=true; . /etc/bash.bashrc || true; $1"
     fi
@@ -86,16 +90,8 @@ as_user() {
 # Install Aider using pipx.
 install_aider() {
     if [ "$AIDER_VERSION" = latest ]; then
-        # NOTE(ivy): PS1=true works around an edge case where pipx isn't added
-        # to the PATH. This happens with the `mcr.microsoft.com/devcontainers/base:ubuntu`
-        # image which includes a check at the top of /etc/bash.bashrc which
-        # returns in non-interactive shells.
         as_user 'pipx install aider-chat'
     else
-        # NOTE(ivy): PS1=true works around an edge case where pipx isn't added
-        # to the PATH. This happens with the `mcr.microsoft.com/devcontainers/base:ubuntu`
-        # image which includes a check at the top of /etc/bash.bashrc which
-        # returns in non-interactive shells.
         as_user "pipx install aider-chat==${AIDER_VERSION}"
     fi
 }
