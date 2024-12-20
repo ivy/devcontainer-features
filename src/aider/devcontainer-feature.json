@@ -1,6 +1,6 @@
 {
   "id": "aider",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "Aider",
   "description": "Aider lets you pair program with LLMs, to edit code in your local Git repository.",
   "documentationURL": "https://github.com/ivy/devcontainer-features/blob/main/src/aider#readme",

@@ -6,16 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## 1.1.0 - 2024-12-20
+
 ### Added
 
 - Support for installing dependencies like Playwright and browser dependencies to enable Aider's web scraping functionality.
 - Logic to clean up caches and other temporary files after installation to optimize performance and reduce disk usage.
 
-## [1.0.0] - 2024-12-18
+## 1.0.0 - 2024-12-18
 
 ### Added
 
 - Initial implementation of Aider devcontainer feature with support for Debian and Ubuntu.
-
-[Unreleased]: https://github.com/ivy/devcontainer-features/commits/main/src/aider
-[1.0.0]: https://github.com/ivy/devcontainer-features/commits/main/src/aider?since=2024-12-18&until=2024-12-19
