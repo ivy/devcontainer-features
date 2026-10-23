@@ -19,6 +19,9 @@ jobs:
           - ubuntu:latest
           - mcr.microsoft.com/devcontainers/base:ubuntu
     steps:
+      - name: "Upgrade runner ca-certificates"
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
+
       - uses: actions/checkout@v5
 
       - uses: actions/setup-node@v6
@@ -39,6 +42,9 @@ jobs:
         features:
           - aider
     steps:
+      - name: "Upgrade runner ca-certificates"
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
+
       - uses: actions/checkout@v5
 
       - uses: actions/setup-node@v6
@@ -55,6 +61,9 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
+      - name: "Upgrade runner ca-certificates"
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
+
       - uses: actions/checkout@v5
 
       - uses: actions/setup-node@v6
