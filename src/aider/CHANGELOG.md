@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Security
 
 - Upgrade `ca-certificates`, and Aider's pinned `certifi` (to >= 2026.10.19) and `pip` (to >= 26.2.2), so the installed environment distrusts the compromised eMudhra intermediate CAs ([CVE-2026-111943](https://emudhra.we-have-a-problem.com/)).
-- Remove `hf-xet` from Aider's environment: its compiled-in `webpki-roots` store trusts the compromised intermediates and no fixed release exists yet. Hugging Face downloads fall back to plain HTTP.
+- Remove `hf-xet` from Aider's environment: its compiled-in `webpki-roots` store trusts the compromised intermediates and no fixed release exists yet. Hugging Face downloads fall back to `huggingface_hub`'s standard HTTPS downloader, which uses the upgraded `certifi`.
 
 ## 1.1.0 - 2024-12-20
 
