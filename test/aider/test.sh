@@ -44,6 +44,7 @@ source dev-container-features-test-lib
 check "validate aider installed" command -v aider
 check "validate playwright installed" command -v playwright
 check "validate CA stores distrust eMudhra intermediates" bash -c "\"\$(dirname \"\$(readlink -f \"\$(command -v aider)\")\")/python\" -c 'import certifi, pip; v = lambda s: tuple(map(int, s.split(\".\"))); assert v(certifi.__version__) >= (2026, 10, 19) and v(pip.__version__) >= (26, 2, 2)'"
+check "validate hf-xet removed" bash -c "! \"\$(dirname \"\$(readlink -f \"\$(command -v aider)\")\")/python\" -c 'import hf_xet'"
 
 # Report result
 # If any of the checks above exited with a non-zero exit code, the test will fail.

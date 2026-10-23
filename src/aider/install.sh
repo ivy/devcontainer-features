@@ -113,9 +113,11 @@ install_aider() {
 }
 
 # Override Aider's pinned certifi and pip, whose bundled CA stores trust the
-# compromised eMudhra intermediates (CVE-2026-111943).
+# compromised eMudhra intermediates (CVE-2026-111943). Remove hf-xet, whose
+# compiled-in webpki-roots store has no fixed release yet; it is optional.
 upgrade_bundled_ca_stores() {
     as_user "pipx runpip aider-chat install --upgrade 'certifi>=${MIN_CERTIFI_VERSION}' 'pip>=${MIN_PIP_VERSION}'"
+    as_user 'pipx runpip aider-chat uninstall -y hf-xet'
 }
 
 install_playwright() {
