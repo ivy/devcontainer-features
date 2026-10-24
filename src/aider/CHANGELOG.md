@@ -13,6 +13,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Upgrade `ca-certificates`, and Aider's pinned `certifi` (to >= 2026.10.19) and `pip` (to >= 26.2.2), so the installed environment distrusts the compromised eMudhra intermediate CAs ([CVE-2026-111943](https://emudhra.we-have-a-problem.com/)).
 - Remove `hf-xet` from Aider's environment: its compiled-in `webpki-roots` store trusts the compromised intermediates and no fixed release exists yet. Hugging Face downloads fall back to `huggingface_hub`'s standard HTTPS downloader, which uses the upgraded `certifi`.
 
+### Fixed
+
+- Install Aider into a Python 3.12 venv, fetching a standalone build when the image has none. Every aider-chat release requires Python < 3.13, so installing onto Debian trixie (3.13) or Ubuntu 26.04 (3.14) failed.
+
 ## 1.1.0 - 2024-12-20
 
 ### Added

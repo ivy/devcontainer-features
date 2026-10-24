@@ -25,6 +25,9 @@ INSTALLPLAYWRIGHTBROWSERS="${INSTALLPLAYWRIGHTBROWSERS:-chromium}"
 MIN_CERTIFI_VERSION=2026.10.19
 MIN_PIP_VERSION=26.2.2
 
+# Python for Aider's venv. Every aider-chat release requires Python <3.13.
+AIDER_PYTHON_VERSION=3.12
+
 # Username to install Aider for.
 USERNAME="${USERNAME:-"${_REMOTE_USER:-automatic}"}"
 
@@ -103,12 +106,15 @@ upgrade_ca_certificates() {
     DEBIAN_FRONTEND=noninteractive apt-get install -y --only-upgrade ca-certificates
 }
 
-# Install Aider using pipx.
+# Install Aider using pipx, fetching a standalone Python when the image has
+# no supported one.
 install_aider() {
+    local pipx_install="pipx install --python ${AIDER_PYTHON_VERSION} --fetch-missing-python"
+
     if [ "$AIDER_VERSION" = latest ]; then
-        as_user 'pipx install aider-chat'
+        as_user "${pipx_install} aider-chat"
     else
-        as_user "pipx install aider-chat==${AIDER_VERSION}"
+        as_user "${pipx_install} aider-chat==${AIDER_VERSION}"
     fi
 }
 
