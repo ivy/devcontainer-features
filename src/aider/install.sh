@@ -20,6 +20,21 @@ INSTALLPLAYWRIGHT="${INSTALLPLAYWRIGHT:-true}"
 # Browsers to install for Playwright.
 INSTALLPLAYWRIGHTBROWSERS="${INSTALLPLAYWRIGHTBROWSERS:-chromium}"
 
+# Minimum versions that distrust the compromised eMudhra intermediates
+# (CVE-2026-111943). Aider pins exact versions older than these.
+MIN_CERTIFI_VERSION=2026.10.19
+MIN_PIP_VERSION=26.2.2
+
+# Python for Aider's venv. Every aider-chat release requires Python <3.13, and
+# no 3.12 release is on the CVE-2026-111943 fixed list. uv 0.13.5 installs
+# 3.12.15 from python-build-standalone 20261021, which bundles pip 26.2.2 and
+# certifi 2026.10.19: the change CPython shipped as its fix in 3.13.17.
+AIDER_PYTHON_VERSION=3.12.15
+
+# uv, which installs that Python. 0.13.5 distrusts the compromised eMudhra
+# intermediates (CVE-2026-111943).
+UV_VERSION=0.13.5
+
 # Username to install Aider for.
 USERNAME="${USERNAME:-"${_REMOTE_USER:-automatic}"}"
 
@@ -87,13 +102,42 @@ as_user() {
     fi
 }
 
+# Upgrade the system CA bundle so it distrusts the compromised eMudhra
+# intermediates (CVE-2026-111943).
+upgrade_ca_certificates() {
+    if [ "$ADJUSTED_ID" != debian ]; then
+        return
+    fi
+
+    apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --only-upgrade ca-certificates
+}
+
+# Install a uv-managed Python for Aider, since the image's may be too new.
+install_aider_python() {
+    local uv="pipx run --spec uv==${UV_VERSION} uv"
+
+    as_user "${uv} python install --no-bin ${AIDER_PYTHON_VERSION}"
+    AIDER_PYTHON="$(as_user "${uv} python find --managed-python ${AIDER_PYTHON_VERSION}" | tail -n 1)"
+}
+
 # Install Aider using pipx.
 install_aider() {
+    local pipx_install="pipx install --python '${AIDER_PYTHON}'"
+
     if [ "$AIDER_VERSION" = latest ]; then
-        as_user 'pipx install aider-chat'
+        as_user "${pipx_install} aider-chat"
     else
-        as_user "pipx install aider-chat==${AIDER_VERSION}"
+        as_user "${pipx_install} aider-chat==${AIDER_VERSION}"
     fi
+}
+
+# Override Aider's pinned certifi and pip, whose bundled CA stores trust the
+# compromised eMudhra intermediates (CVE-2026-111943). Remove hf-xet, whose
+# compiled-in webpki-roots store has no fixed release yet; it is optional.
+upgrade_bundled_ca_stores() {
+    as_user "pipx runpip aider-chat install --upgrade 'certifi>=${MIN_CERTIFI_VERSION}' 'pip>=${MIN_PIP_VERSION}'"
+    as_user 'pipx runpip aider-chat uninstall -y hf-xet'
 }
 
 install_playwright() {
@@ -133,8 +177,11 @@ main() {
 
     detect_adjusted_id
     detect_username
+    upgrade_ca_certificates
+    install_aider_python
     install_aider
     install_playwright
+    upgrade_bundled_ca_stores
     clean_up
 
     echo "Aider has been installed!"

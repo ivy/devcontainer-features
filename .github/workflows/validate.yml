@@ -7,7 +7,14 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: "Upgrade runner ca-certificates"
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
+
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22.23.4
 
       - name: "Validate devcontainer-feature.json files"
         uses: devcontainers/action@v1
