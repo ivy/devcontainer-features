@@ -44,6 +44,7 @@ source dev-container-features-test-lib
 check "validate aider installed" command -v aider
 check "validate playwright installed" command -v playwright
 check "validate CA stores distrust eMudhra intermediates" bash -c "\"\$(dirname \"\$(readlink -f \"\$(command -v aider)\")\")/python\" -c 'import certifi, pip; v = lambda s: tuple(map(int, s.split(\".\"))); assert v(certifi.__version__) >= (2026, 10, 19) and v(pip.__version__) >= (26, 2, 2)'"
+check "validate Aider's Python bundles a pip that distrusts eMudhra intermediates" bash -c "\"\$(dirname \"\$(readlink -f \"\$(command -v aider)\")\")/python\" -c 'import ensurepip, subprocess, sys; v = lambda s: tuple(map(int, s.split(\".\"))); base = subprocess.run([sys._base_executable, \"-c\", \"import pip, pip._vendor.certifi as c; print(pip.__version__, c.__version__)\"], capture_output=True, text=True, check=True).stdout.split(); assert v(ensurepip.version()) >= (26, 2, 2) and v(base[0]) >= (26, 2, 2) and v(base[1]) >= (2026, 10, 19), (ensurepip.version(), base)'"
 check "validate hf-xet removed" bash -c "! \"\$(dirname \"\$(readlink -f \"\$(command -v aider)\")\")/python\" -c 'import hf_xet'"
 
 # Report result

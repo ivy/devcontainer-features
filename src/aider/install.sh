@@ -25,8 +25,11 @@ INSTALLPLAYWRIGHTBROWSERS="${INSTALLPLAYWRIGHTBROWSERS:-chromium}"
 MIN_CERTIFI_VERSION=2026.10.19
 MIN_PIP_VERSION=26.2.2
 
-# Python for Aider's venv. Every aider-chat release requires Python <3.13.
-AIDER_PYTHON_VERSION=3.12
+# Python for Aider's venv. Every aider-chat release requires Python <3.13, and
+# no 3.12 release is on the CVE-2026-111943 fixed list. uv 0.13.5 installs
+# 3.12.15 from python-build-standalone 20261021, which bundles pip 26.2.2 and
+# certifi 2026.10.19: the change CPython shipped as its fix in 3.13.17.
+AIDER_PYTHON_VERSION=3.12.15
 
 # uv, which installs that Python. 0.13.5 distrusts the compromised eMudhra
 # intermediates (CVE-2026-111943).
