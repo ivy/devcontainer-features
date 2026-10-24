@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
-- Install Aider into a Python 3.12 venv, fetching a standalone build when the image has none. Every aider-chat release requires Python < 3.13, so installing onto Debian trixie (3.13) or Ubuntu 26.04 (3.14) failed.
+- Install Aider into a Python 3.12 venv, provided by uv 0.13.5 (which distrusts the compromised intermediates). Every aider-chat release requires Python < 3.13, so installing onto Debian trixie (3.13) or Ubuntu 26.04 (3.14) failed.
 
 ## 1.1.0 - 2024-12-20
 

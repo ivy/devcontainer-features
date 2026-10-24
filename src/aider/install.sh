@@ -28,6 +28,10 @@ MIN_PIP_VERSION=26.2.2
 # Python for Aider's venv. Every aider-chat release requires Python <3.13.
 AIDER_PYTHON_VERSION=3.12
 
+# uv, which installs that Python. 0.13.5 distrusts the compromised eMudhra
+# intermediates (CVE-2026-111943).
+UV_VERSION=0.13.5
+
 # Username to install Aider for.
 USERNAME="${USERNAME:-"${_REMOTE_USER:-automatic}"}"
 
@@ -106,10 +110,17 @@ upgrade_ca_certificates() {
     DEBIAN_FRONTEND=noninteractive apt-get install -y --only-upgrade ca-certificates
 }
 
-# Install Aider using pipx, fetching a standalone Python when the image has
-# no supported one.
+# Install a uv-managed Python for Aider, since the image's may be too new.
+install_aider_python() {
+    local uv="pipx run --spec uv==${UV_VERSION} uv"
+
+    as_user "${uv} python install --no-bin ${AIDER_PYTHON_VERSION}"
+    AIDER_PYTHON="$(as_user "${uv} python find --managed-python ${AIDER_PYTHON_VERSION}" | tail -n 1)"
+}
+
+# Install Aider using pipx.
 install_aider() {
-    local pipx_install="pipx install --python ${AIDER_PYTHON_VERSION} --fetch-missing-python"
+    local pipx_install="pipx install --python '${AIDER_PYTHON}'"
 
     if [ "$AIDER_VERSION" = latest ]; then
         as_user "${pipx_install} aider-chat"
@@ -164,6 +175,7 @@ main() {
     detect_adjusted_id
     detect_username
     upgrade_ca_certificates
+    install_aider_python
     install_aider
     install_playwright
     upgrade_bundled_ca_stores
